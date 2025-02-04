@@ -1,5 +1,5 @@
 import { registerAs } from '@nestjs/config';
-import { TypeOrmModuleAsyncOptions, TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { config as dotenvConfig } from 'dotenv';
 import { DataSource, DataSourceOptions } from 'typeorm';
 
@@ -13,7 +13,7 @@ const typeOrmConfig: TypeOrmModuleOptions = {
     password: process.env.DATABASE_PASSWORD,
     database: process.env.DATABASE_NAME,
     entities: ['dist/**/*.entity.js'],
-    migrations: ['dist/migrations/*-migration.ts'],
+    migrations: ['dist/migrations/*-migration.js'],
     autoLoadEntities: true,
     logging: true
 }
