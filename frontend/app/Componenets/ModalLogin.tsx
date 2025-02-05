@@ -1,3 +1,4 @@
+import axios from 'axios'
 import React, { useState, type FormEvent } from 'react'
 
 const ModalLogin: React.FC = () => {
@@ -7,8 +8,17 @@ const ModalLogin: React.FC = () => {
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        console.log(username, password);
-        reset();
+        // console.log(import.meta.env.VITE_BACKEND_URL);
+        axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/login`, {
+            "username" : username,
+            "password" : password
+        })
+        .then(
+            res => console.log(res.data)
+        ).catch(
+            err => console.error(err.message)
+        )
+        // reset();
     }
 
     const reset = () => {
