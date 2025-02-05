@@ -28,7 +28,7 @@ const ModalLogin: React.FC = () => {
     }
     return (
         <>
-            <button className='btn bg-green-500' onClick={() => (document.getElementById('login') as HTMLDialogElement | null)?.showModal()}>Login</button>
+            <button className='btn bg-blue-500' onClick={() => (document.getElementById('login') as HTMLDialogElement | null)?.showModal()}>Login</button>
             <dialog id='login' className='modal'>
                 <div className="modal-header">
 
