@@ -5,6 +5,7 @@ const ModalLogin: React.FC = () => {
 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const [error, setError] = useState("")
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
@@ -16,7 +17,7 @@ const ModalLogin: React.FC = () => {
         .then(
             res => console.log(res.data)
         ).catch(
-            err => console.error(err.message)
+            err => setError(err.message)
         )
         // reset();
     }
@@ -30,9 +31,6 @@ const ModalLogin: React.FC = () => {
         <>
             <button className='btn bg-blue-500' onClick={() => (document.getElementById('login') as HTMLDialogElement | null)?.showModal()}>Login</button>
             <dialog id='login' className='modal'>
-                <div className="modal-header">
-
-                </div>
                 <div className="modal-box">
                     <h3 className='font-bold text-lg'>Login</h3>
                     <form onSubmit={handleSubmit} className='mt-6 space-y-6'>
@@ -49,6 +47,7 @@ const ModalLogin: React.FC = () => {
                             Login
                         </button>
                     </form>
+                    {error && <p>{error}</p>}
                 </div>
                 <form method="dialog" className="modal-backdrop">
                     <button>close</button>

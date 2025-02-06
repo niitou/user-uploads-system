@@ -3,21 +3,22 @@ import React, { useState, type FormEvent } from 'react'
 
 const ModalRegister = () => {
 
-  const [username, setUsername] = useState("")
+    const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const [error, setError] = useState('')
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
         // console.log(import.meta.env.VITE_BACKEND_URL);
         axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/signup`, {
-            "username" : username,
-            "password" : password
+            "username": username,
+            "password": password
         })
-        .then(
-            res => console.log(res.data)
-        ).catch(
-            err => console.error(err.message)
-        )
+            .then(
+                res => console.log(res.data)
+            ).catch(
+                err => setError(err.message)
+            )
         // reset();
     }
 
@@ -27,13 +28,10 @@ const ModalRegister = () => {
         (document.getElementById('register') as HTMLDialogElement | null)?.close();
     }
 
-  return (
-    <>
-      <button className='btn bg-yellow-500' onClick={() => (document.getElementById('register') as HTMLDialogElement | null)?.showModal()}>Register</button>
+    return (
+        <>
+            <button className='btn bg-yellow-500' onClick={() => (document.getElementById('register') as HTMLDialogElement | null)?.showModal()}>Register</button>
             <dialog id='register' className='modal'>
-                <div className="modal-header">
-
-                </div>
                 <div className="modal-box">
                     <h3 className='font-bold text-lg'>Register</h3>
                     <form onSubmit={handleSubmit} className='mt-6 space-y-6'>
@@ -50,13 +48,14 @@ const ModalRegister = () => {
                             Register
                         </button>
                     </form>
+                    {error && <p>{error}</p>}
                 </div>
                 <form method="dialog" className="modal-backdrop">
                     <button>close</button>
                 </form>
             </dialog>
-    </>
-  )
+        </>
+    )
 }
 
 export default ModalRegister
