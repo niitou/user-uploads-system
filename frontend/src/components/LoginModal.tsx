@@ -3,13 +3,13 @@ import { useState, FormEvent } from "react"
 import { useDispatch } from "react-redux"
 import { loginSuccess } from "../reducers/authReducer"
 import { AppDispatch } from "../store"
+import { showToast } from "../reducers/toastReducer"
 
 const LoginModal = () => {
     const dispatch = useDispatch<AppDispatch>()
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-    const [showSuccessToast, setShowSuccessToast] = useState(false)
-    const [showFailToast, setShowFailToast] = useState(false)
+
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault()
@@ -18,18 +18,12 @@ const LoginModal = () => {
             username: username,
             password: password
         }).then(res => {
-            setShowSuccessToast(true);
-            setTimeout(() => {
-                setShowSuccessToast(false);
-                dispatch(loginSuccess({ token: res.data.token, user: res.data.user }))
-            }, 1000)
+            dispatch(showToast({ message: "Login Success !", type: "success" }))
+            dispatch(loginSuccess({ token: res.data.token, user: res.data.user }))
         }).catch(
             err => {
                 console.error(err.message)
-                setShowFailToast(true);
-                setTimeout(() => {
-                    setShowFailToast(false);
-                }, 3000)
+                dispatch(showToast({ message: "Invalid credentials", type: "error" }))
             }
         )
     }
@@ -67,26 +61,6 @@ const LoginModal = () => {
                 <form method="dialog" className="modal-backdrop">
                     <button>close</button>
                 </form>
-
-                {
-                    // Toast if log in success
-                    showSuccessToast &&
-                    <div className="toast toast-end">
-                        <div className="alert alert-success">
-                            <span>Log In Success</span>
-                        </div>
-                    </div>
-                }
-
-                {
-                    // Toast if log in failed
-                    showFailToast &&
-                    <div className="toast toast-end">
-                        <div className="alert alert-warning">
-                            Invalid username or Password
-                        </div>
-                    </div>
-                }
             </dialog>
         </>
     )

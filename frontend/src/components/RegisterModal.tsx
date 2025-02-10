@@ -1,11 +1,13 @@
 import axios from "axios"
 import { useState, FormEvent } from "react"
+import { useDispatch } from "react-redux"
+import { AppDispatch } from "../store"
+import { showToast } from "../reducers/toastReducer"
 
 const RegisterModal = () => {
+    const dispatch = useDispatch<AppDispatch>()
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-    const [showSuccessToast, setShowSuccessToast] = useState(false)
-    const [showFailToast, setShowFailToast] = useState(false)
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault()
@@ -13,19 +15,13 @@ const RegisterModal = () => {
             username: username,
             password: password
         }).then(res => {
-            console.log(res.data)
-            setShowSuccessToast(true)
-            setTimeout(() => {
-                setShowSuccessToast(false);
-                (document.getElementById('register_modal') as HTMLDialogElement)?.close()
-            }, 1000);
+            console.log(res.data);
+            dispatch(showToast({message : "Register success !", type : "info"}));
+            (document.getElementById('register_modal') as HTMLDialogElement)?.close()
         }).catch(
             err => {
                 console.log(err.message)
-                setShowFailToast(true)
-                setTimeout(() => {
-                    setShowFailToast(false)
-                }, 1000)
+                dispatch(showToast({message : "Register failed !", type : "warning"}))
             }
         )
     }
@@ -64,25 +60,6 @@ const RegisterModal = () => {
                     <button>close</button>
                 </form>
             </dialog>
-            {
-                // Toast if register success
-                showSuccessToast &&
-                <div className="toast toast-end">
-                    <div className="alert alert-success">
-                        <span>Register success</span>
-                    </div>
-                </div>
-            }
-
-            {
-                // Toast if register failed
-                showFailToast &&
-                <div className="toast toast-end">
-                    <div className="alert alert-warning">
-                        Registraion failed
-                    </div>
-                </div>
-            }
         </>
     )
 }

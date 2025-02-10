@@ -1,18 +1,19 @@
-import { FormEvent, useState } from "react"
+import { FormEvent } from "react"
 import { useDispatch } from "react-redux"
 import { logout } from "../reducers/authReducer"
 import { AppDispatch } from "../store"
+import { redirect } from "@tanstack/react-router"
+import { showToast } from "../reducers/toastReducer"
 
 const LogoutModal = () => {
-    const [showSuccessToast, setShowSuccessToast] = useState(false)
     const dispatch = useDispatch<AppDispatch>()
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault()
-        setShowSuccessToast(true)
-        setTimeout(() => {
-            setShowSuccessToast(false);
-            dispatch(logout())
-        }, 1000)
+        dispatch(showToast({message : "Log out success !", type : "success"}))
+        dispatch(logout())
+        throw redirect({
+            to: "/",
+        })
     }
 
     const cancelSubmit = () => {
@@ -35,14 +36,6 @@ const LogoutModal = () => {
                 <form method="dialog" className="modal-backdrop">
                     <button>close</button>
                 </form>
-                {
-                    showSuccessToast &&
-                    <div className="toast toast-end">
-                        <div className="alert alert-success">
-                            <span>Log Out Success</span>
-                        </div>
-                    </div>
-                }
             </dialog>
         </>
     )
