@@ -1,5 +1,5 @@
 export interface ToastState{
     message : string
-    type : 'success' | 'error' | 'warning',
+    type : 'success' | 'error' | 'warning' | 'info',
     visible : boolean
 }
