@@ -3,13 +3,15 @@ import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store';
 import { IoPersonCircleOutline } from 'react-icons/io5'
+import LoginModal from './LoginModal';
+import RegisterModal from './RegisterModal';
+import LogoutModal from './LogoutModal';
 
 const RootComponent = () => {
     const isAuth = useSelector((state: RootState) => state.auth.token);
     return (
         (
             <>
-
                 <div className="navbar bg-base-300 shadow-sm">
                     <div className="flex-1">
                         <Link to="/" className='btn btn-ghost text-2xl'>Home </Link>
@@ -25,12 +27,12 @@ const RootComponent = () => {
                                         {
                                             isAuth ?
                                                 <>
-                                                    <Link to="/dashboard">Dashboard</Link>
-                                                    <Link to="/auth/logout">Logout</Link>
+                                                    <Link to="/dashboard" className='btn btn-ghost'>Dashboard</Link>
+                                                    <LogoutModal />
                                                 </> :
                                                 <>
-                                                    <Link to="/auth/login">Login </Link>
-                                                    <Link to='/auth/register'>Register </Link>
+                                                    <LoginModal />
+                                                    <RegisterModal />
                                                 </>
                                         }
                                     </ul>
@@ -42,7 +44,6 @@ const RootComponent = () => {
                 <Outlet />
                 <TanStackRouterDevtools />
             </>
-
         )
     )
 }
