@@ -13,7 +13,7 @@ export class Profile {
     @OneToOne(() => User, (user) => user.profile)
     user : User
 
-    @OneToOne(() => File, (file) => file.profile)
+    @OneToOne(() => File, (file) => file.profile, {onDelete : "CASCADE"})
     @JoinColumn({name: 'avatar'})
     file : File
 

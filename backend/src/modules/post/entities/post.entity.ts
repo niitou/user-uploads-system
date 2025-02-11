@@ -13,7 +13,7 @@ export class Post {
     @Column({type : "text"})
     description
 
-    @OneToMany(() => File, (file) => file.post, {cascade : true})
+    @OneToMany(() => File, (file) => file.post, {cascade : true, onDelete : "SET NULL"})
     files : File[]
 
     @ManyToOne(() => User, (user) => user.posts)
