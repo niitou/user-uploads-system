@@ -12,12 +12,16 @@ import { AuthService } from './modules/auth/auth.service';
 import { FileModule } from './modules/file/file.module';
 import { ProfileModule } from './modules/profile/profile.module';
 import { PostModule } from './modules/post/post.module';
+import { MulterModule } from '@nestjs/platform-express';
+import multerConfig from './common/config/multer.config';
+import { FileController } from './modules/file/file.controller';
+import { FileService } from './modules/file/file.service';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal : true,
-      load : [typeormConfig]
+      load : [typeormConfig, multerConfig]
     }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
@@ -27,13 +31,18 @@ import { PostModule } from './modules/post/post.module';
       secret : process.env.JWT_SECRET,
       signOptions : {expiresIn: "1h"}
     }),
+    MulterModule.registerAsync({
+      inject : [ConfigService],
+      useFactory : async (configService : ConfigService) => configService.get('multer'),
+    }),
     UsersModule,
     PassportModule,
     FileModule,
     ProfileModule,
     PostModule,
   ],
-  controllers: [AppController, AuthController],
-  providers: [AppService, AuthService],
+  controllers: [AppController, AuthController, FileController], 
+  // Multer won't work for some reason if the the FileController is not declared here
+  providers: [AppService, AuthService, FileService],
 })
 export class AppModule {}
