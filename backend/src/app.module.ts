@@ -9,6 +9,9 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthController } from './modules/auth/auth.controller';
 import { AuthService } from './modules/auth/auth.service';
+import { FileModule } from './modules/file/file.module';
+import { ProfileModule } from './modules/profile/profile.module';
+import { PostModule } from './modules/post/post.module';
 
 @Module({
   imports: [
@@ -26,6 +29,9 @@ import { AuthService } from './modules/auth/auth.service';
     }),
     UsersModule,
     PassportModule,
+    FileModule,
+    ProfileModule,
+    PostModule,
   ],
   controllers: [AppController, AuthController],
   providers: [AppService, AuthService],

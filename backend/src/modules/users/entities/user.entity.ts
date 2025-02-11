@@ -1,18 +1,25 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { File } from "src/modules/file/entities/file.entity";
+import { Post } from "src/modules/post/entities/post.entity";
+import { Profile } from "src/modules/profile/entities/profile.entity";
+import { Column, CreateDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class User {
     @PrimaryGeneratedColumn()
-    id : number
+    id: number
 
-    @Column({unique : true})
-    username : string
+    @Column({ unique: true, nullable: false })
+    username: string
 
-    @Column()
+    @Column({ nullable: false })
     password: string
 
-    // @Column()
-    // avatar : string
+    @OneToOne(() => Profile, (profile) => profile.user, {cascade : true})
+    @JoinColumn({name: "profile_id"})
+    profile : Profile
+
+    @OneToMany(() => Post, (post) => post.user)
+    posts : Post[]
 
     @CreateDateColumn()
     created_at
