@@ -7,8 +7,11 @@ export class File {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column({nullable : false})
+    @Column({nullable : false, default : "default.jpg"})
     filename : string
+
+    @Column({nullable : false, default : "uploads"})
+    path : string
 
     @OneToOne(() => Profile, (profile) => profile.file)
     profile : Profile
