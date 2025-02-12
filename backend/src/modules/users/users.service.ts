@@ -5,21 +5,21 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcryptjs'
-import { NotFoundError } from 'rxjs';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(User)
-    private userRepository: Repository<User>
+    @InjectRepository(User) private userRepository: Repository<User>,
   ) { }
 
   async create(createUserDto: CreateUserDto) {
+    // Check if user already exist
     const existingUser = await this.userRepository.findOne({ where: { username: createUserDto.username } })
     if(existingUser) {
       throw new ConflictException('Username is already in used')
     }
 
+    // Hash password
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10)
     const user = this.userRepository.create({username: createUserDto.username, password: hashedPassword})
     return this.userRepository.save(user)
@@ -38,7 +38,7 @@ export class UsersService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} user`;
+    return this.userRepository.findOneBy({id});
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
