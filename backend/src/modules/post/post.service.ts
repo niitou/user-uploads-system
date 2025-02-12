@@ -9,6 +9,7 @@ import { UsersService } from '../users/users.service';
 export class PostService {
   constructor(
     @InjectRepository(Post) private postRepository: Repository<Post>,
+    @InjectRepository(File) private fileRepository: Repository<File>,
     private readonly userService : UsersService
   ) { }
 
@@ -17,6 +18,7 @@ export class PostService {
     if(!user) {
       throw new BadRequestException("User is not exist !")
     }
+    // Don't forget to asign file(s) to postRepository when making post
     const post = this.postRepository.create({
       title : createPostDto.title,
       description : createPostDto.description,

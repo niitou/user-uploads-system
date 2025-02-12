@@ -7,16 +7,10 @@ export class File {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column({nullable : false, default : "default.jpg"})
+    @Column()
     filename : string
 
-    @Column({nullable : false, default : "uploads"})
-    path : string
-
-    @OneToOne(() => Profile, (profile) => profile.file)
-    profile : Profile
-
-    @ManyToOne(() => Post, (post) => post.files)
+    @ManyToOne(() => Post, (post) => post.files, { onDelete:"CASCADE"}) // Delete file when post is deleted
     @JoinColumn({name : "post_id"})
     post : Post
 

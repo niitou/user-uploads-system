@@ -8,23 +8,8 @@ import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class ProfileService {
-  constructor(
-    @InjectRepository(Profile) private profileRepository : Repository<Profile>,
-    private readonly userService : UsersService
-  ){}
-  async create(createProfileDto: CreateProfileDto) {
-    const user = await this.userService.findOne(createProfileDto.user_id)
-    if(!user) {
-      throw new BadRequestException("User is not found")
-    }
-
-    const profile = this.profileRepository.create({
-      file : null,
-      username : user.username.toLocaleLowerCase().replace(/[^a-zA-Z0-9]+/g, '-').replace(/^-+|-+$/g, ''),
-      user : user
-    })
-
-    return this.profileRepository.save(profile)
+   create(createProfileDto: CreateProfileDto) {
+    return `This action create a profile`  
   }
 
   findAll() {

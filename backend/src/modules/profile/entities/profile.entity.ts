@@ -1,4 +1,3 @@
-import { File } from "src/modules/file/entities/file.entity";
 import { User } from "src/modules/users/entities/user.entity";
 import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
@@ -7,16 +6,15 @@ export class Profile {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column({nullable : false})
-    username : string
+    @Column({ nullable: false })
+    username: string
 
-    @OneToOne(() => User, (user) => user.profile, {onDelete : "SET NULL"})
-    @JoinColumn({name : "user_id"})
-    user : User
+    @OneToOne(() => User, (user) => user.profile, { onDelete: "CASCADE" }) // Delete profile if user is deleted
+    @JoinColumn({ name: "user_id" })
+    user: User
 
-    @OneToOne(() => File, (file) => file.profile, {onDelete : "CASCADE"})
-    @JoinColumn({name: 'avatar'})
-    file : File
+    @Column({ nullable: true })
+    avatar: string
 
     @CreateDateColumn()
     created_at

@@ -1,4 +1,3 @@
-import { File } from "src/modules/file/entities/file.entity";
 import { Post } from "src/modules/post/entities/post.entity";
 import { Profile } from "src/modules/profile/entities/profile.entity";
 import { Column, CreateDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
@@ -14,11 +13,11 @@ export class User {
     @Column({ nullable: false })
     password: string
 
-    @OneToOne(() => Profile, (profile) => profile.user, {onDelete : "CASCADE"})
-    profile : Profile
+    @OneToOne(() => Profile, (profile) => profile.user, { cascade: true }) // Save profile if user is saved
+    profile: Profile
 
     @OneToMany(() => Post, (post) => post.user)
-    posts : Post[]
+    posts: Post[]
 
     @CreateDateColumn()
     created_at

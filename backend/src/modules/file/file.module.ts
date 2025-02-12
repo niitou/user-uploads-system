@@ -6,7 +6,6 @@ import { MulterModule } from '@nestjs/platform-express';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { File } from './entities/file.entity';
 import { PostModule } from '../post/post.module';
-
 @Module({
   imports: [
     MulterModule.registerAsync({
@@ -14,7 +13,6 @@ import { PostModule } from '../post/post.module';
       useFactory: async (configService: ConfigService) => configService.get('multer'),
     }),
     TypeOrmModule.forFeature([File]),
-    PostModule
   ],
   controllers: [FileController],
   providers: [FileService],

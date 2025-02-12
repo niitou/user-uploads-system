@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcryptjs'
+import { Profile } from '../profile/entities/profile.entity';
 
 @Injectable()
 export class UsersService {
@@ -19,9 +20,12 @@ export class UsersService {
       throw new ConflictException('Username is already in used')
     }
 
+    const profile = new Profile()
+    profile.username = createUserDto.username
+
     // Hash password
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10)
-    const user = this.userRepository.create({username: createUserDto.username, password: hashedPassword})
+    const user = this.userRepository.create({username: createUserDto.username, password: hashedPassword, profile: profile})
     return this.userRepository.save(user)
   }
 
@@ -46,6 +50,6 @@ export class UsersService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} user`;
+    return this.userRepository.delete(id);
   }
 }

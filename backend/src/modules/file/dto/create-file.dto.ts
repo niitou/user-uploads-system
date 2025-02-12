@@ -4,9 +4,6 @@ export class CreateFileDto {
     @IsString()
     filename
 
-    @IsString()
-    path
-
     @IsNumber()
     post
 }

@@ -9,10 +9,10 @@ export class FileController {
 
   @Post('avatar')
   @UseInterceptors(FileInterceptor('avatar'))
-  uploadFile(@UploadedFile(new AvatarValidationPipe()) file: Express.Multer.File){
-    return this.fileService.createAvatar({
-      filename: file.filename, path: file.path,
-      post: undefined
+  uploadFile(@UploadedFile() file: Express.Multer.File, post: number){
+    return this.fileService.create({
+      filename: file.filename,
+      post: post
     })
   }
   

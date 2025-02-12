@@ -5,20 +5,20 @@ import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, Pri
 @Entity()
 export class Post {
     @PrimaryGeneratedColumn()
-    id : number
+    id: number
 
-    @Column({nullable : false})
-    title : string
+    @Column({ nullable: false })
+    title: string
 
-    @Column({type : "text"})
+    @Column({ type: "text" })
     description
 
-    @OneToMany(() => File, (file) => file.post, {cascade : true, onDelete : "SET NULL"})
-    files : File[]
+    @OneToMany(() => File, (file) => file.post, { cascade: true }) // Save file when post is saved
+    files: File[]
 
-    @ManyToOne(() => User, (user) => user.posts)
-    @JoinColumn({name : 'user_id'})
-    user : User
+    @ManyToOne(() => User, (user) => user.posts, { onDelete: "SET NULL" }) // Set FK to NULL if user is deleted 
+    @JoinColumn({ name: 'user_id' })
+    user: User
 
     @CreateDateColumn()
     created_at

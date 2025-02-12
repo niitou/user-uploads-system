@@ -10,13 +10,11 @@ import { PostService } from '../post/post.service';
 export class FileService {
   constructor(
     @InjectRepository(File) private fileRepository : Repository<File>,
-    private readonly postService : PostService
   ) {}
 
-  async createAvatar(createFileDto: CreateFileDto) {
+  async create(createFileDto: CreateFileDto) {
     const file = this.fileRepository.create({
       filename : createFileDto.filename,
-      path : createFileDto.path.split("\\")[0],
       post : createFileDto.post
     })
 
