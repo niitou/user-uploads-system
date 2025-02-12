@@ -5,24 +5,33 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Post } from './entities/post.entity';
 import { Repository } from 'typeorm';
 import { UsersService } from '../users/users.service';
+import { File } from '../file/entities/file.entity';
 @Injectable()
 export class PostService {
   constructor(
     @InjectRepository(Post) private postRepository: Repository<Post>,
-    @InjectRepository(File) private fileRepository: Repository<File>,
     private readonly userService : UsersService
   ) { }
 
   async create(createPostDto: CreatePostDto) {
-    const user = await this.userService.findOne(createPostDto.user_id)
+    console.log(createPostDto)
+    const user_id = typeof createPostDto.user_id === "string" ? parseInt(createPostDto.user_id) : createPostDto.user_id
+    const user = await this.userService.findOne(user_id)
     if(!user) {
       throw new BadRequestException("User is not exist !")
     }
+
+    const files = createPostDto.files.map(fileData => {
+      const file = new File()
+      file.filename = fileData.filename
+      return file
+    })
     // Don't forget to asign file(s) to postRepository when making post
     const post = this.postRepository.create({
       title : createPostDto.title,
       description : createPostDto.description,
-      user : user
+      user : user,
+      files : files
     })
 
     return this.postRepository.save(post)

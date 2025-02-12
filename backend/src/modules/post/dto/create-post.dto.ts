@@ -1,4 +1,4 @@
-import { IsArray, IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { IsNotEmpty, IsString } from "class-validator";
 
 export class CreatePostDto {
     @IsNotEmpty()
@@ -9,6 +9,8 @@ export class CreatePostDto {
     description
 
     @IsNotEmpty()
-    @IsNumber()
+    @IsString()
     user_id
+
+    files : Array<Express.Multer.File>
 }
