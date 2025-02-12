@@ -10,7 +10,8 @@ export class Profile {
     @Column({nullable : false})
     username : string
 
-    @OneToOne(() => User, (user) => user.profile)
+    @OneToOne(() => User, (user) => user.profile, {onDelete : "SET NULL"})
+    @JoinColumn({name : "user_id"})
     user : User
 
     @OneToOne(() => File, (file) => file.profile, {onDelete : "CASCADE"})

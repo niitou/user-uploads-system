@@ -14,8 +14,7 @@ export class User {
     @Column({ nullable: false })
     password: string
 
-    @OneToOne(() => Profile, (profile) => profile.user, {cascade : true, onDelete : "CASCADE"})
-    @JoinColumn({name: "profile_id"})
+    @OneToOne(() => Profile, (profile) => profile.user, {onDelete : "CASCADE"})
     profile : Profile
 
     @OneToMany(() => Post, (post) => post.user)
