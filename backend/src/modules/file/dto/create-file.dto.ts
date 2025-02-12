@@ -1,1 +1,12 @@
-export class CreateFileDto {}
+import { IsNotEmpty, IsNumber, IsString } from "class-validator";
+
+export class CreateFileDto {
+    @IsString()
+    filename
+
+    @IsString()
+    path
+
+    @IsNumber()
+    post
+}
