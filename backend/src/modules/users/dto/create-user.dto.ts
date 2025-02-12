@@ -8,7 +8,4 @@ export class CreateUserDto {
     @IsString()
     @IsNotEmpty()
     password : string
-
-    // @IsString()
-    // avatar : string
 }
