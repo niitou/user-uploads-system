@@ -9,7 +9,7 @@ export class AvatarValidationPipe implements PipeTransform {
 
   removeFile(value: Express.Multer.File, message: string) {
     console.log(value)
-    fs.unlink(join('uploads' , value.filename), (err) => {
+    fs.unlink(join('public' , value.filename), (err) => {
       if (err) throw err
       console.log(`${value.filename} is deleted`)
     })

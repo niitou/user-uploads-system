@@ -8,7 +8,7 @@ export class FilesValidationPipe implements PipeTransform {
   private readonly allowedExtensions = ['.png', '.jpg', '.jpeg', '.mp4', '.mov']
   removeFile(files: Array<Express.Multer.File>, message: string) {
     files.forEach(file => {
-      fs.unlink(join('uploads', file.filename), (err) => {
+      fs.unlink(join('public', file.filename), (err) => {
         if (err) throw err;
         console.log(`${file.filename} is deleted`);
       });
