@@ -20,7 +20,7 @@ export class AuthService {
         return {
             token: accessToken,
             user: {
-                name: user.username,
+                user_id : user.id,
                 profile_id: user.profile.id,
                 avatar: user.profile.avatar,
                 username: user.profile.username

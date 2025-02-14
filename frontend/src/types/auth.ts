@@ -1,8 +1,8 @@
 export interface User {
-    name: string;
-    profile_id : number | null
+    user_id : number
+    profile_id : number
     avatar : string | null
-    username : string | null
+    username : string
   }
   
   export interface AuthState {
