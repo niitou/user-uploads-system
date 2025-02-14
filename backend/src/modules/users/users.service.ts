@@ -16,7 +16,7 @@ export class UsersService {
   async create(createUserDto: CreateUserDto) {
     // Check if user already exist
     const existingUser = await this.userRepository.findOne({ where: { username: createUserDto.username } })
-    if(existingUser) {
+    if (existingUser) {
       throw new ConflictException('Username is already in used')
     }
 
@@ -25,13 +25,13 @@ export class UsersService {
 
     // Hash password
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10)
-    const user = this.userRepository.create({username: createUserDto.username, password: hashedPassword, profile: profile})
+    const user = this.userRepository.create({ username: createUserDto.username, password: hashedPassword, profile: profile })
     return this.userRepository.save(user)
   }
 
-  async validate(username: string, password: string){
-    const user = await this.userRepository.findOne({where : {username : username}, relations: ["profile"]})
-    if(!user) return null
+  async validate(username: string, password: string) {
+    const user = await this.userRepository.findOne({ where: { username: username }, relations: ["profile"] })
+    if (!user) return null
 
     const isPasswordValid = await bcrypt.compare(password, user.password)
     return isPasswordValid ? user : null
@@ -42,7 +42,11 @@ export class UsersService {
   }
 
   findOne(id: number) {
-    return this.userRepository.findOneBy({id});
+    return this.userRepository.findOneBy({ id });
+  }
+
+  findPosts(id: number) {
+    return this.userRepository.findOne({ where: { id: id }, relations: ["posts", "profile"] })
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
