@@ -10,14 +10,12 @@ import { File } from '../file/entities/file.entity';
 export class PostService {
   constructor(
     @InjectRepository(Post) private postRepository: Repository<Post>,
-    private readonly userService : UsersService
+    private readonly userService: UsersService
   ) { }
 
   async create(createPostDto: CreatePostDto) {
-    console.log(createPostDto)
-    const user_id = typeof createPostDto.user_id === "string" ? parseInt(createPostDto.user_id) : createPostDto.user_id
-    const user = await this.userService.findOne(user_id)
-    if(!user) {
+    const user = await this.userService.findOne(createPostDto.user_id)
+    if (!user) {
       throw new BadRequestException("User is not exist !")
     }
 
@@ -28,10 +26,10 @@ export class PostService {
     })
     // Don't forget to asign file(s) to postRepository when making post
     const post = this.postRepository.create({
-      title : createPostDto.title,
-      description : createPostDto.description,
-      user : user,
-      files : files
+      title: createPostDto.title,
+      description: createPostDto.description,
+      user: user,
+      files: files
     })
 
     return this.postRepository.save(post)
@@ -42,7 +40,7 @@ export class PostService {
   }
 
   findOne(id: number) {
-    return this.postRepository.findOneBy({id});
+    return this.postRepository.findOneBy({ id });
   }
 
   update(id: number, updatePostDto: UpdatePostDto) {

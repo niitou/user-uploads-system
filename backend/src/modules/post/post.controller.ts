@@ -15,7 +15,7 @@ export class PostController {
     return this.postService.create({
       title: createPostDto.title,
       description: createPostDto.description,
-      user_id: createPostDto.user_id,
+      user_id: +createPostDto.user_id,
       files: files
     });
   }
