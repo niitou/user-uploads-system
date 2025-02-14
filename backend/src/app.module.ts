@@ -11,9 +11,15 @@ import { PostModule } from './modules/post/post.module';
 import multerConfig from './common/config/multer.config';
 import { AuthModule } from './modules/auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath : join(__dirname, "..", "public"),
+      serveRoot : "/media/"
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
       load: [typeormConfig, multerConfig]
