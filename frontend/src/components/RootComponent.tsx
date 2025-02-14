@@ -9,8 +9,8 @@ const RootComponent = () => {
         (
             <>
                 <NavbarComponent/>
-                <Outlet />
                 <ToastComponent/>
+                <Outlet />
                 <TanStackRouterDevtools />
             </>
         )
