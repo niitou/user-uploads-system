@@ -2,17 +2,19 @@ import { FormEvent } from "react"
 import { useDispatch } from "react-redux"
 import { logout } from "../reducers/authReducer"
 import { AppDispatch } from "../store"
-import { redirect } from "@tanstack/react-router"
+// import { redirect } from "@tanstack/react-router"
 import { showToast } from "../reducers/toastReducer"
+import { useRouter } from "@tanstack/react-router"
 
 const LogoutModal = () => {
+    const router = useRouter()
     const dispatch = useDispatch<AppDispatch>()
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault()
         dispatch(showToast({message : "Log out success !", type : "success"}))
         dispatch(logout())
-        throw redirect({
-            to: "/",
+        router.navigate({
+            to : "/"
         })
     }
 
