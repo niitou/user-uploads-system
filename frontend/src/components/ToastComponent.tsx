@@ -11,11 +11,11 @@ const ToastComponent = () => {
 
     setTimeout(() => {
         dispatch(hideToast())
-    }, 3000)
+    }, 50000)
 
     return (
         <div className='toast toast-end'>
-            <div className={`alert alert-${type} font-bold text-lg`}>
+            <div className={`alert ${type === "error" ? "alert-error" : type === "info" ? "alert-info" : type === "success" ? "alert-success" : "alert-warning"} font-bold text-lg`}>
                 {message}
             </div>
         </div>
