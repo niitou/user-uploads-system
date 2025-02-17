@@ -16,12 +16,12 @@ const RegisterModal = () => {
             password: password
         }).then(res => {
             console.log(res.data);
-            dispatch(showToast({message : "Register success !", type : "info"}));
+            dispatch(showToast({ message: "Register success !", type: "info" }));
             (document.getElementById('register_modal') as HTMLDialogElement)?.close()
         }).catch(
             err => {
                 console.log(err.message)
-                dispatch(showToast({message : "Register failed !", type : "warning"}))
+                dispatch(showToast({ message: "Register failed !", type: "warning" }))
             }
         )
     }
@@ -35,6 +35,7 @@ const RegisterModal = () => {
                         <div className="mt-2">
                             <label className="label font-bold mr-2">Username :</label>
                             <input
+                                required={true}
                                 type="text"
                                 className="input input-primary"
                                 value={username}
@@ -45,6 +46,7 @@ const RegisterModal = () => {
                         <div className="mt-2">
                             <label className="label font-bold mr-3">Password :</label>
                             <input
+                                required={true}
                                 className="input input-primary"
                                 type="password"
                                 value={password}

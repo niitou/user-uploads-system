@@ -37,6 +37,7 @@ const LoginModal = () => {
                         <div className="mt-2">
                             <label className="label font-bold mr-2">Username :</label>
                             <input
+                                required={true}
                                 type="text"
                                 className="input input-primary"
                                 value={username}
@@ -47,6 +48,7 @@ const LoginModal = () => {
                         <div className="mt-2">
                             <label className="label font-bold mr-3">Password :</label>
                             <input
+                                required={true}
                                 className="input input-primary"
                                 type="password"
                                 value={password}
