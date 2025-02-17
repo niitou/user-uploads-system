@@ -3,6 +3,7 @@ import { showToast } from '../reducers/toastReducer'
 import { useSelector } from 'react-redux'
 import { RootState } from '../store'
 import AddPostModal from '../components/AddPostModal'
+import UpdateUserModal from '../components/UpdateUserModal'
 export const Route = createFileRoute('/dashboard')({
   component: RouteComponent,
   beforeLoad: ({ context }) => {
@@ -35,7 +36,8 @@ function RouteComponent() {
           <div className="card-actions justify-end">
             {/* <button className="btn btn-accent">New Post</button> */}
             <AddPostModal user_id={user.user?.user_id?? 0}/>
-            <button className="btn btn-primary">Edit Profile</button>
+            {/* <button className="btn btn-primary">Edit Profile</button> */}
+            <UpdateUserModal user_id={user.user?.user_id ?? 0} avatar={user.user?.avatar ?? ""} username={user.user?.username ?? ""}/>
             <button className="btn btn-error">Delete Profile</button>
           </div>
         </div>
