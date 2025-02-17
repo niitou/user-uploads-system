@@ -79,7 +79,7 @@ const AddPostModal: React.FC<Props> = ({ user_id }) => {
 
                             <legend className="fieldset-legend">Files :</legend>
                             <input type="file" className='file-input' multiple={true} ref={fileInputRef} onChange={handleFileChange} />
-                            <label className="fieldset-label">png, jpg, jpeg, mp4, mov (Max 10MB)</label>
+                            <label className="fieldset-label">png, jpg, jpeg, mp4, mov (Max 50MB)</label>
 
                             <div className="mt-2">
                                 <button type="submit" className="btn btn-primary">Post</button>
