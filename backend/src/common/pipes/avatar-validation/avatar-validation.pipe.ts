@@ -9,24 +9,26 @@ export class AvatarValidationPipe implements PipeTransform {
 
   removeFile(value: Express.Multer.File, message: string) {
     console.log(value)
-    fs.unlink(join('public' , value.filename), (err) => {
+    fs.unlink(join('public', value.filename), (err) => {
       if (err) throw err
       console.log(`${value.filename} is deleted`)
     })
     throw new BadRequestException(message)
   }
   transform(value: Express.Multer.File, metadata: ArgumentMetadata) {
-    const extension = extname(value.originalname)
-    const fileSize = value.size
+    if (value) {
+      const extension = extname(value.originalname)
+      const fileSize = value.size
 
-    if (!this.allowedExtensions.includes(extension)) {
-      this.removeFile(value, `File type ${extension} is not supported`);
+      if (!this.allowedExtensions.includes(extension)) {
+        this.removeFile(value, `File type ${extension} is not supported`);
+      }
+
+      if (fileSize > this.maxFileSize) {
+        this.removeFile(value, `File size is too large`);
+      }
+
+      return value;
     }
-
-    if (fileSize > this.maxFileSize) {
-      this.removeFile(value, `File size is too large`);
-    }
-
-    return value;
   }
 }
