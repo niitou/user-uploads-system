@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../store'
 import AddPostModal from '../components/AddPostModal'
 import UpdateUserModal from '../components/UpdateUserModal'
+import DeleteUserModal from '../components/DeleteUserModal'
 export const Route = createFileRoute('/dashboard')({
   component: RouteComponent,
   beforeLoad: ({ context }) => {
@@ -36,7 +37,7 @@ function RouteComponent() {
           <div className="card-actions justify-end">
             <AddPostModal user_id={user.user?.user_id?? 0}/>
             <UpdateUserModal profile_id={user.user?.profile_id ?? 0} avatar={user.user?.avatar ?? ""} username={user.user?.username ?? ""}/>
-            <button className="btn btn-error">Delete Profile</button>
+            <DeleteUserModal user_id={user.user?.user_id ?? 0}/>
           </div>
         </div>
       </div>

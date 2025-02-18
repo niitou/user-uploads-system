@@ -53,7 +53,7 @@ export class UsersService {
     return `This action updates a #${id} user`;
   }
 
-  remove(id: number) {
-    return this.userRepository.delete(id);
+  async remove(id: number) {
+    return await this.userRepository.delete(id);
   }
 }
