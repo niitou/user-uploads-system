@@ -29,8 +29,8 @@ export class ProfileService {
     const user = await this.profileRepository.findOneBy({ id })
     if (!user) throw new BadRequestException("User Not Found !")
 
-    // Remove old profile pic if exist
-    if (user.avatar) {
+    // Remove old profile pic if exist and new avatar is not null
+    if (user.avatar && updateProfileDto.avatar) {
       fs.unlink(join("public", user.avatar), (err) => {
         if (err) {
           console.error(err.message)
