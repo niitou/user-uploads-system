@@ -9,7 +9,7 @@ import { useRouter } from "@tanstack/react-router"
 const LogoutModal = () => {
     const router = useRouter()
     const dispatch = useDispatch<AppDispatch>()
-    const handleSubmit = (e: FormEvent) => {
+    const handleLogOut = (e: FormEvent) => {
         e.preventDefault()
         dispatch(showToast({message : "Log out success !", type : "success"}))
         dispatch(logout())
@@ -18,7 +18,7 @@ const LogoutModal = () => {
         })
     }
 
-    const cancelSubmit = () => {
+    const cancelLogOut = () => {
         (document.getElementById('logout_modal') as HTMLDialogElement)?.close()
     }
     return (
@@ -28,10 +28,10 @@ const LogoutModal = () => {
             <dialog id="logout_modal" className="modal">
                 <div className="modal-box">
                     <h3 className="font-bold text-lg mb-3">Confirm Logout ?</h3>
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleLogOut}>
                         <div className="mt-2 flex justify-between">
                             <button type='submit' className="btn btn-success">Yes</button>
-                            <button onClick={cancelSubmit} className="btn btn-error">No</button>
+                            <button type='button' onClick={cancelLogOut} className="btn btn-error">No</button>
                         </div>
                     </form>
                 </div>
