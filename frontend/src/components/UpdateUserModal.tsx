@@ -1,14 +1,20 @@
+import axios from "axios"
 import { FormEvent, useState } from "react"
+import { useDispatch } from "react-redux"
+import { AppDispatch } from "../store"
+import { updateUser } from "../reducers/authReducer"
+import { showToast } from "../reducers/toastReducer"
 
 interface Props {
     username: string,
     avatar: string,
-    user_id: number
+    profile_id: number
 }
 
-const UpdateUserModal: React.FC<Props> = ({ avatar, user_id, username }) => {
+const UpdateUserModal: React.FC<Props> = ({ avatar, profile_id, username }) => {
+    const dispatch = useDispatch<AppDispatch>()
     const [newUsername, setNewUsername] = useState(username)
-    const [newAvatar, setNewAvatar] = useState<File | null>(null)
+    const [newAvatar, setNewAvatar] = useState<File>()
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
@@ -18,8 +24,27 @@ const UpdateUserModal: React.FC<Props> = ({ avatar, user_id, username }) => {
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault()
+        const formData = new FormData()
+        formData.append("username", newUsername)
+        if (newAvatar) {
+            formData.append("avatar", newAvatar)
+        }
+        axios.patch(`${import.meta.env.VITE_BACKEND_URL}/profile/${profile_id}`, formData)
+            .then(res => {
+                console.log(res.data)
+                dispatch(updateUser({ //dispatch data on update
+                    username: res.data.username,
+                    avatar: res.data.avatar 
+                }))
+                dispatch(showToast({message: "Profile updated !", type : "success"}));
+                (document.getElementById('edit_profile_modal') as HTMLDialogElement).close()
+            })
+            .catch(err => {
+                console.error(err)
+                dispatch(showToast({message: err.response.data.message, type:"error"}))
+            })
 
-        console.log(newAvatar, user_id, newUsername)
+        console.log(newAvatar, profile_id, newUsername)
     }
     return (
         <>

@@ -26,7 +26,7 @@ function RouteComponent() {
       <div className="card card-side w-5xl bg-base-300 shadow-sm mx-auto my-5 border border-gray-100">
         <figure>
           <img
-            src={"/assets/default.jpg"} //import.meta.env.VITE_MEDIA_URL
+            src={user.user?.avatar ? `${import.meta.env.VITE_MEDIA_URL}/${user.user.avatar}`: "/assets/default.jpg"} 
             alt="User Avatar"
             className='object-cover w-30' />
         </figure>
@@ -34,10 +34,8 @@ function RouteComponent() {
           <h1 className="card-title text-3xl">{user.user?.username}</h1>
           <p><i>No bio yet</i></p>
           <div className="card-actions justify-end">
-            {/* <button className="btn btn-accent">New Post</button> */}
             <AddPostModal user_id={user.user?.user_id?? 0}/>
-            {/* <button className="btn btn-primary">Edit Profile</button> */}
-            <UpdateUserModal user_id={user.user?.user_id ?? 0} avatar={user.user?.avatar ?? ""} username={user.user?.username ?? ""}/>
+            <UpdateUserModal profile_id={user.user?.profile_id ?? 0} avatar={user.user?.avatar ?? ""} username={user.user?.username ?? ""}/>
             <button className="btn btn-error">Delete Profile</button>
           </div>
         </div>
