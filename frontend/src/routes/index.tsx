@@ -23,15 +23,18 @@ export const Route = createFileRoute('/')({
 function Index() {
   const posts = useLoaderData({ from: "/" }) as Post[]
   return (
-    <div className="p-2">
-      {posts.length === 0 ? "Nothing here yet" : <div className='grid grid-cols-5 gap-5 m-5'>
+    <div className="p-5 flex justify-center">
+      {posts.length === 0 ? "Nothing in here yet" : <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
         {posts.map((post: Post, idx: number) =>
           <PostCardComponent key={idx}
+            id={post.id}
             title={post.title}
             description={post.description}
             userId={post.user?.id}
             profileId={post.user?.profile.id}
-            profileUsername={post.user?.profile.username} />
+            profileUsername={post.user?.profile.username} 
+            created_at={post.created_at} 
+            files={post.files}/>
         )}
       </div>}
     </div>
