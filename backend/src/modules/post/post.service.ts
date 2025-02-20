@@ -35,8 +35,16 @@ export class PostService {
     return this.postRepository.save(post)
   }
 
-  findAll() {
-    return `This action returns all post`;
+  async findAll() {
+    // Need to add Pagination
+    const posts = await this.postRepository
+      .createQueryBuilder('post')
+      .leftJoinAndSelect('post.user', 'user') // Join Users table
+      .leftJoinAndSelect('user.profile', 'profile') // Join Profile via User
+      .select(["post.id", "post.title", "post.description", "user.id", "profile.id", "profile.username"]) // Select required fields
+      .getMany()
+
+    return posts
   }
 
   findOne(id: number) {
