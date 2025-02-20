@@ -41,7 +41,8 @@ export class PostService {
       .createQueryBuilder('post')
       .leftJoinAndSelect('post.user', 'user') // Join Users table
       .leftJoinAndSelect('user.profile', 'profile') // Join Profile via User
-      .select(["post.id", "post.title", "post.description", "user.id", "profile.id", "profile.username"]) // Select required fields
+      .leftJoinAndSelect('post.files', 'files') // Join File table
+      .select(["post.id", "post.title", "post.description", "post.created_at", "files.id", "files.filename", "user.id", "profile.id", "profile.username"]) // Select required fields
       .getMany()
 
     return posts
