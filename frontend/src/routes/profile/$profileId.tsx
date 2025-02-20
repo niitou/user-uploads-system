@@ -5,7 +5,7 @@ export const Route = createFileRoute('/profile/$profileId')({
     loader: async ({ params }) => {
         try {
             const response = await axios.get(
-                `${import.meta.env.VITE_BACKEND_URL}/users/${params.profileId}`,
+                `${import.meta.env.VITE_BACKEND_URL}/profile/${params.profileId}`,
             )
             console.log(response)
             return response.data
@@ -21,6 +21,7 @@ export const Route = createFileRoute('/profile/$profileId')({
 })
 
 function RouteComponent() {
+    // Need to get all the posts under this profile
     const profile = useLoaderData({from : "/profile/$profileId"})
     return <div>{JSON.stringify(profile)}</div>
 }
