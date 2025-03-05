@@ -45,8 +45,18 @@ export class UsersService {
     return this.userRepository.findOneBy({ id });
   }
 
-  findPosts(id: number) {
-    return this.userRepository.findOne({ where: { id: id }, relations: ["posts", "profile"] })
+  async findPosts(id: number) {
+    // need to add post pagination
+    const data = await this.userRepository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.profile', 'profile')
+      .leftJoinAndSelect('user.posts', 'post')
+      .leftJoinAndSelect('post.files', 'files')
+      .select(['user.id', 'profile.id', 'profile.username', 'profile.avatar', 'post.id', 'post.title', 'post.description', 'post.created_at', 'files.id', 'files.filename'])
+      .where('user.id = :id', { id: id })
+      .getOne()
+
+    return data
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
