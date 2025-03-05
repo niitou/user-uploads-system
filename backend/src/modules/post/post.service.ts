@@ -48,6 +48,19 @@ export class PostService {
     return posts
   }
 
+  async findPostByUser(id: number) {
+    // need to add pagination
+    const posts = await this.postRepository
+      .createQueryBuilder('post')
+      .leftJoinAndSelect('post.user', 'user')
+      .leftJoinAndSelect('post.files', 'files')
+      .select(['post.id', 'post.title', 'post.description', 'post.created_at', 'files.id', 'files.filename'])
+      .where("user.id = :id", { id: id })
+      .getMany()
+
+    return posts
+  }
+
   findOne(id: number) {
     return this.postRepository.findOneBy({ id });
   }
