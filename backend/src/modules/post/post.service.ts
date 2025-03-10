@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -6,6 +6,9 @@ import { Post } from './entities/post.entity';
 import { Repository } from 'typeorm';
 import { UsersService } from '../users/users.service';
 import { File } from '../file/entities/file.entity';
+import * as fs from 'fs'
+import { join } from 'path';
+
 @Injectable()
 export class PostService {
   constructor(
@@ -69,7 +72,24 @@ export class PostService {
     return `This action updates a #${id} post`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} post`;
+  async remove(id: number) {
+    const post = await this.postRepository.createQueryBuilder('post')
+      .leftJoinAndSelect('post.files', 'files')
+      .select(['post.id', 'files.filename'])
+      .where("post.id = :id", { id: id })
+      .getOne()
+    console.log(post)
+    if (!post) {
+      throw new NotFoundException("Post is not found")
+    }
+    // remove files from public folder
+    post.files.map(file => (
+      fs.unlink(join("public", file.filename), (err) => {
+        if (err) {
+          console.error(err.message)
+        }
+      })
+    ))
+    return this.postRepository.delete(id)
   }
 }
