@@ -19,7 +19,7 @@ const PostDetailModal: React.FC<Props> = ({ id, title, description, created_at, 
     <dialog id={`post_detail_modal_${id}`} className="modal">
       <div className="modal-box">
         <h3>{title}</h3>
-        <p>{description === '' ? "No description is given" : description}</p>
+        <p className="break-words">{description === '' ? "No description is given" : description}</p>
         <p>Created At : {created_at}</p>
         <div className="divider"></div>
         {/* Slider */}

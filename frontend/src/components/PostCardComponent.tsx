@@ -1,5 +1,6 @@
 import { Link, useLocation } from "@tanstack/react-router"
 import PostDetailModal from "./PostDetailModal"
+import DeletePostModal from "./DeletePostModal"
 
 interface Props {
     id: number,
@@ -26,13 +27,13 @@ const PostCardComponent: React.FC<Props> = ({ id, title, description, userId, pr
                 <div className="card-body">
                     <div className="" onClick={() => (document.getElementById(`post_detail_modal_${id}`) as HTMLDialogElement)?.showModal()} style={{ cursor: "pointer" }}>
                         <h2 className="card-title">{title}</h2>
-                        <p>{description === '' ? <i>No description given</i> : description}</p>
+                        <p className="truncate">{description === '' ? <i>No description given</i> : description}</p>
                     </div>
                     {
                         location.pathname.split("/")[1] === "profile" ? <></> : location.pathname === "/dashboard" ?
                             <div className="card-actions justify-end">
                                 <button className="btn btn-success text-sm">Edit</button>
-                                <button className="btn btn-error text-sm">Delete</button>
+                                <DeletePostModal id={id}/>
                             </div> : 
                             <>
                                 <div className="divider"></div><div className="card-actions justify-end">
