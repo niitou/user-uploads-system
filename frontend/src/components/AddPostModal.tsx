@@ -3,6 +3,7 @@ import { FormEvent, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '../store'
 import { showToast } from '../reducers/toastReducer'
+import { useRouter } from '@tanstack/react-router'
 
 interface Props {
     user_id: number
@@ -14,6 +15,7 @@ const AddPostModal: React.FC<Props> = ({ user_id }) => {
     const [description, setDescription] = useState("")
     const [files, setFiles] = useState<File[]>([])
     const fileInputRef = useRef<HTMLInputElement | null>(null)
+    const router = useRouter()
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
@@ -43,6 +45,7 @@ const AddPostModal: React.FC<Props> = ({ user_id }) => {
                     if (fileInputRef.current) {
                         fileInputRef.current.value = "" // Reset file input
                     }
+                    router.invalidate(); // re-fetch data
                     (document.getElementById('new_post_modal') as HTMLDialogElement)?.close()
                 }
             }
