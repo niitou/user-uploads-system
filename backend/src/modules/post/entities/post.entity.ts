@@ -10,7 +10,7 @@ export class Post {
     @Column({ nullable: false })
     title: string
 
-    @Column({ type: "text" })
+    @Column({ type: "text", nullable: true })
     description
 
     @OneToMany(() => File, (file) => file.post, { cascade: true }) // Save file when post is saved

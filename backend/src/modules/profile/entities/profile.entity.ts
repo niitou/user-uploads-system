@@ -9,6 +9,9 @@ export class Profile {
     @Column({ nullable: false })
     username: string
 
+    @Column({nullable: true, type:"text"})
+    bio
+
     @OneToOne(() => User, (user) => user.profile, { onDelete: "CASCADE" }) // Delete profile if user is deleted
     @JoinColumn({ name: "user_id" })
     user: User
