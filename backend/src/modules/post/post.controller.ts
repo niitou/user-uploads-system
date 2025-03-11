@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UploadedFiles, UseIn
 import { PostService } from './post.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
-import { AnyFilesInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import { AnyFilesInterceptor, FilesInterceptor, NoFilesInterceptor } from '@nestjs/platform-express';
 import { FilesValidationPipe } from 'src/common/pipes/files-validation/files-validation.pipe';
 
 @Controller('post')
@@ -31,8 +31,13 @@ export class PostController {
   }
 
   @Patch(':id')
+  @UseInterceptors(NoFilesInterceptor())
   update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
-    return this.postService.update(+id, updatePostDto);
+    console.log(updatePostDto)
+    return this.postService.update(+id, {
+      title : updatePostDto.title,
+      description : updatePostDto.description
+    });
   }
 
   @Delete(':id')

@@ -1,4 +1,14 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreatePostDto } from './create-post.dto';
+import { IsEmpty, IsString } from 'class-validator';
+import { Optional } from '@nestjs/common';
+import { Transform } from 'class-transformer';
+import { IsNull } from 'typeorm';
 
-export class UpdatePostDto extends PartialType(CreatePostDto) {}
+export class UpdatePostDto {
+    @IsString()
+    @Optional()
+    title
+
+    @Transform(({ value }) => value === 'null' ? null : value)
+    @Optional()
+    description
+}

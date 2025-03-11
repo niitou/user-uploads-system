@@ -68,8 +68,8 @@ export class PostService {
     return this.postRepository.findOneBy({ id });
   }
 
-  update(id: number, updatePostDto: UpdatePostDto) {
-    return `This action updates a #${id} post`;
+  async update(id: number, updatePostDto: UpdatePostDto) {
+    return await this.postRepository.update(id, updatePostDto)
   }
 
   async remove(id: number) {
