@@ -59,7 +59,7 @@ function RouteComponent() {
         </div>
       </div>
       <div className="p-5 flex justify-center">
-        {posts ? <p className='italic'>Nothing to see here </p> :
+        {!posts ? <p className='italic'>Nothing to see here </p> :
           <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
             {posts.map((post: Post) =>
               <PostCardComponent key={post.id}
