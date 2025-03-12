@@ -1,8 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UploadedFiles, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UploadedFiles, UseInterceptors, Query } from '@nestjs/common';
 import { PostService } from './post.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
-import { AnyFilesInterceptor, FilesInterceptor, NoFilesInterceptor } from '@nestjs/platform-express';
+import { FilesInterceptor, NoFilesInterceptor } from '@nestjs/platform-express';
 import { FilesValidationPipe } from 'src/common/pipes/files-validation/files-validation.pipe';
 
 @Controller('post')
@@ -21,8 +21,8 @@ export class PostController {
   }
 
   @Get()
-  findAll() {
-    return this.postService.findAll();
+  findAll(@Query('search') search?: String) {
+    return this.postService.findAll(search);
   }
 
   @Get(':id')
